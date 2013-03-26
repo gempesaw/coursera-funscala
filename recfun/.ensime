@@ -1,0 +1,76 @@
+;; If your project contains a lot of files, it is advisable to enable (:disable-source-load-on-startup t)
+;; Otherwise Ensime might incur a massive lag at startup time
+;; See more information about that at http://aemoncannon.github.com/ensime/index.html
+
+(
+  :subprojects (
+    (
+      :name "progfun-recfun"
+      :module-name "progfun-recfun"
+      :depends-on-modules (
+      
+      )
+      :package "progfun-recfun"
+      :version "1.0.0"
+      :compile-deps (
+        "C:\\Users\\Daniel\\.sbt\\boot\\scala-2.10.1\\lib\\scala-library.jar"
+      )
+      :runtime-deps (
+        "C:\\Users\\Daniel\\.sbt\\boot\\scala-2.10.1\\lib\\scala-library.jar"
+        "C:\\daniel\\scala-course\\recfun\\target\\scala-2.10\\classes"
+        "C:\\daniel\\scala-course\\recfun\\target\\scala-2.10\\classes"
+      )
+      :test-deps (
+        "C:\\Users\\Daniel\\.sbt\\boot\\scala-2.10.1\\lib\\scala-library.jar"
+        "C:\\daniel\\scala-course\\recfun\\lib_managed\\jars\\org.scalatest\\scalatest_2.10\\scalatest_2.10-1.9.1.jar"
+        "C:\\daniel\\scala-course\\recfun\\lib_managed\\jars\\org.scala-lang\\scala-actors\\scala-actors-2.10.0.jar"
+        "C:\\daniel\\scala-course\\recfun\\lib_managed\\jars\\org.scala-lang\\scala-reflect\\scala-reflect-2.10.0.jar"
+        "C:\\daniel\\scala-course\\recfun\\lib_managed\\jars\\junit\\junit\\junit-4.10.jar"
+        "C:\\daniel\\scala-course\\recfun\\lib_managed\\jars\\org.hamcrest\\hamcrest-core\\hamcrest-core-1.1.jar"
+        "C:\\daniel\\scala-course\\recfun\\target\\scala-2.10\\classes"
+        "C:\\daniel\\scala-course\\recfun\\target\\scala-2.10\\test-classes"
+      )
+      :source-roots (
+        "C:\\daniel\\scala-course\\recfun\\src\\main\\scala"
+        "C:\\daniel\\scala-course\\recfun\\target\\scala-2.10\\src_managed\\main"
+        "C:\\daniel\\scala-course\\recfun\\src\\test\\scala"
+        "C:\\daniel\\scala-course\\recfun\\target\\scala-2.10\\src_managed\\test"
+      )
+      :target "C:\\daniel\\scala-course\\recfun\\target\\scala-2.10\\classes"
+      :test-target "C:\\daniel\\scala-course\\recfun\\target\\scala-2.10\\test-classes"
+    )
+    (
+      :name "progfun-recfun"
+      :module-name "progfun-recfun"
+      :depends-on-modules (
+      
+      )
+      :package "progfun-recfun"
+      :version "1.0.0"
+      :compile-deps (
+        "C:\\Users\\Daniel\\.sbt\\boot\\scala-2.10.1\\lib\\scala-library.jar"
+      )
+      :runtime-deps (
+        "C:\\Users\\Daniel\\.sbt\\boot\\scala-2.10.1\\lib\\scala-library.jar"
+      )
+      :test-deps (
+        "C:\\Users\\Daniel\\.sbt\\boot\\scala-2.10.1\\lib\\scala-library.jar"
+        "C:\\Users\\Daniel\\.ivy2\\cache\\org.scalatest\\scalatest_2.10\\jars\\scalatest_2.10-1.9.1.jar"
+        "C:\\Users\\Daniel\\.ivy2\\cache\\org.scala-lang\\scala-actors\\jars\\scala-actors-2.10.0.jar"
+        "C:\\Users\\Daniel\\.ivy2\\cache\\org.scala-lang\\scala-reflect\\jars\\scala-reflect-2.10.0.jar"
+        "C:\\Users\\Daniel\\.ivy2\\cache\\junit\\junit\\jars\\junit-4.10.jar"
+        "C:\\Users\\Daniel\\.ivy2\\cache\\org.hamcrest\\hamcrest-core\\jars\\hamcrest-core-1.1.jar"
+      )
+      :source-roots (
+        "C:\\daniel\\scala-course\\recfun\\submission\\src\\main\\scala"
+        "C:\\daniel\\scala-course\\recfun\\submission\\src\\main\\java"
+        "C:\\daniel\\scala-course\\recfun\\submission\\target\\scala-2.10\\src_managed\\main"
+        "C:\\daniel\\scala-course\\recfun\\src\\test\\scala"
+        "C:\\daniel\\scala-course\\recfun\\src\\test\\java"
+        "C:\\daniel\\scala-course\\recfun\\submission\\target\\scala-2.10\\src_managed\\test"
+      )
+      :target "C:\\daniel\\scala-course\\recfun\\submission\\target\\scala-2.10\\classes"
+      :test-target "C:\\daniel\\scala-course\\recfun\\submission\\target\\scala-2.10\\test-classes"
+    )
+  )
+)
