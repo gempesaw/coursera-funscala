@@ -26,14 +26,18 @@ object Huffman {
 
   // Part 1: Basics
 
-  def weight(tree: CodeTree): Int = ??? // tree match ...
+  def weight(tree: CodeTree): Int = tree match {
+    case Leaf(char, leafWeight) => leafWeight
+    case Fork(left, right, forkChars, forkWeight) => forkWeight
+  }
 
-  def chars(tree: CodeTree): List[Char] = ??? // tree match ...
+  def chars(tree: CodeTree): List[Char] = tree match {
+    case Leaf(char, leafWeight) => char :: Nil
+    case Fork(left, right, forkChars, forkWeight) => forkChars
+  }
 
   def makeCodeTree(left: CodeTree, right: CodeTree) =
     Fork(left, right, chars(left) ::: chars(right), weight(left) + weight(right))
-
-
 
   // Part 2: Generating Huffman trees
 
@@ -71,7 +75,26 @@ object Huffman {
     *       println("integer is  : "+ theInt)
     *   }
     */
-  def times(chars: List[Char]): List[(Char, Int)] = ???
+  def times(chars: List[Char]): List[(Char, Int)] =  {
+    def timesAcc(chars: List[Char], acc: List[(Char, Int)]): List[(Char, Int)] =
+      chars.sorted match {
+        case charsHead :: charsTail => {
+          println("----------")
+          println("acc:")
+          acc foreach println
+          println("charsHead: " + charsHead + " and Tail:")
+          charsTail foreach println
+          acc match {
+            case Nil => timesAcc(charsTail, (charsHead, 1) :: Nil)
+            case accHead :: accTail => {
+              if (charsHead == accHead._1) timesAcc(charsTail, (accHead._1, accHead._2 + 1) :: accTail)
+              else timesAcc(charsTail, (charsHead, 1) :: acc)
+            }
+          }}
+        case Nil => acc
+      }
+    timesAcc(chars, Nil).sortBy(_._2).reverse
+  }
 
   /**
     * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
