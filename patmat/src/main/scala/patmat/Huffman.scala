@@ -124,10 +124,14 @@ object Huffman {
     * If `trees` is a list of less than two elements, that list should be returned
     * unchanged.
     */
-  // def combine(trees: List[CodeTree]): List[CodeTree] = trees match {
-  //   case trees.size < 2 => trees
-  //   case head :: tail.head :: tail.tail => new Fork
-  // }
+  def combine(trees: List[CodeTree]): List[CodeTree] = {
+    println("tree size: " + trees.size + " and the tree: ")
+    trees foreach println
+    trees match {
+      case trees if trees.size == 1 => trees
+      case first :: second :: tail => makeCodeTree(first, second) :: combine(tail)
+    }
+  }
 
   /**
     * This function will be called in the following way:
