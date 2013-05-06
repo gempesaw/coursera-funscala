@@ -61,15 +61,21 @@ class AnagramsSuite extends FunSuite {
     val lard = List(('a', 1), ('d', 1), ('l', 1), ('r', 1))
     val r = List(('r', 1))
     val lad = List(('a', 1), ('d', 1), ('l', 1))
-    // assert(subtract(lard, r) === lad)
+    assert(subtract(lard, r) === lad)
 
     val larrrd = List(('a', 1), ('d', 1), ('l', 1), ('r', 3))
     val rr = List(('r', 2))
-    // assert(subtract(larrrd, rr) === lard)
+    assert(subtract(larrrd, rr) === lard)
 
     val laarrrd = List(('a', 2), ('d', 1), ('l', 1), ('r', 3))
     val laard = List(('a', 2), ('d', 1), ('l', 1), ('r', 1))
     assert(subtract(laarrrd, rr) === laard)
+
+    val rd = List(('r', 1), ('d', 1))
+    val la = List(('a', 1), ('l', 1))
+    assert(subtract(lard, rd) === la)
+
+    assert(subtract(lard, lard) === List())
   }
 
   // test("sentence anagrams: []") {
@@ -77,17 +83,7 @@ class AnagramsSuite extends FunSuite {
   //   assert(sentenceAnagrams(sentence) === List(Nil))
   // }
 
-  // val sentenceOccur = sentenceOccurrences(List("Linux", "rulez"))
-  // val occur = combinations(sentenceOccur)
-  // sentenceOccur foreach println
-  // println("---------")
-  // println(occur.tail.head)
-  // subtract(sentenceOccur, (occur.tail.head)) foreach println
-
-  //   for {
-  //     occur <- combinations(sentOccur)
-  //     if (dictionaryByOccurrences.getOrElse(occur, Nil) != Nil && dictionaryByOccurrences.getOrElse(subtract(sentOccur, occur), Nil) != Nil)
-  // } yield { println(dictionaryByOccurrences(occur))}
+  sentenceAnagrams(List("mac"))
 
 
   // test("sentence anagrams: Linux rulez") {

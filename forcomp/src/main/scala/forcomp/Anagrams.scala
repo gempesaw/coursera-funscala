@@ -116,27 +116,12 @@ object Anagrams {
       val lessCount = removed._2
       val currentCount = occurMap(char).head._2
       if (currentCount == lessCount) (occurMap - char).map{ case (k, v) => (k, v.length) }.toList.sorted
-      else {
-        println("occurMap: -----")
-        occurMap foreach println
-        println("(occurMap - char): -----")
-        (occurMap - char) foreach println
-        val newMap = (occurMap - char).updated(char, List((char, currentCount - lessCount)))
-        println("newMap: -----")
-        newMap foreach println
-        newMap.map{ case (k, v) => (k, v.head._2) }.toList.sorted
-      }
+      else (occurMap - char).updated(char, List((char, currentCount - lessCount))).map{ case (k, v) => (k, v.head._2) }.toList.sorted
     }
 
     y match {
-      case Nil => {
-        println( "hi we're in here")
-        x foreach println
-        x
-      }
-      case head :: tail => {
-        println(head)
-        subtract(remover(x, head), tail)}
+      case Nil => x
+      case head :: tail => subtract(remover(x, head), tail)
     }
   }
 
@@ -181,15 +166,29 @@ object Anagrams {
     *
     *  Note: There is only one anagram of an empty sentence.
     */
-  def sentenceAnagrams(sentence: Sentence): List[Sentence] = sentence match {
-    case Nil => List(Nil)
-    case sentence => {
-      for {
-        occur <- combinations(sentenceOccurrences(sentence))
-      } yield { dictionaryByOccurrences.getOrElse( occur, Nil) }
-
+  def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
+    def anagramAcc(sentOccur: Occurrences, combos: List[Occurrences], acc: List[Sentence]): List[Sentence] = sentOccur match {
+      case Nil => acc
+      case sentOccur => {
+        (for {
+          subset <- combos
+          subsetAnas = dictionaryByOccurrences.getOrElse(subset, Nil)
+          if (subset != Nil && subsetAnas != Nil)
+            } yield {
+          val remaining = subtract(sentOccur, subset)
+          val remainingAnas = anagramAcc(remaining, combinations(remaining), List())
+          println("------")
+          // println("subset:" + subset)
+          // println("remaining:" + remaining)
+          println("subsetAnas:" + subsetAnas)
+          println("remainingAnas:" + remainingAnas)
+          subsetAnas
+        })
+      }
     }
-      List(sentence)
+
+    val sentOccur = sentenceOccurrences(sentence)
+    anagramAcc(sentOccur, combinations(sentOccur), List())
   }
 
   // transform the characters of the sentence into a list saying how often each character appears
