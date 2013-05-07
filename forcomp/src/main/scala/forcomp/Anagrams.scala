@@ -56,7 +56,7 @@ object Anagrams {
     *
     */
   lazy val dictionaryByOccurrences: Map[Occurrences, List[Word]] =
-    dictionary.groupBy((w: Word) => wordOccurrences(w))
+    dictionary.groupBy((w: Word) => wordOccurrences(w)) withDefaultValue List()
 
 
   /** Returns all the anagrams of a given word. */
@@ -110,19 +110,25 @@ object Anagrams {
 
   // dictionary.groupBy((w: Word) => wordOccurrences(w))
   def subtract(x: Occurrences, y: Occurrences): Occurrences = {
-    def remover(list: Occurrences, removed: (Char, Int)): Occurrences = {
-      val occurMap = list.groupBy((el: (Char,Int)) => el._1)
-      val char = removed._1
-      val lessCount = removed._2
-      val currentCount = occurMap(char).head._2
-      if (currentCount == lessCount) (occurMap - char).map{ case (k, v) => (k, v.length) }.toList.sorted
-      else (occurMap - char).updated(char, List((char, currentCount - lessCount))).map{ case (k, v) => (k, v.head._2) }.toList.sorted
-    }
+    val xmap = Map(x map {s => s} : _*)
+    val ymap = Map(y map {s => s} : _*)
 
-    y match {
-      case Nil => x
-      case head :: tail => subtract(remover(x, head), tail)
-    }
+    ymap.foldLeft(xmap) (( acc, removeMe) => {
+      val char = removeMe._1
+      val count = removeMe._2
+      if ((acc apply removeMe._1) == count) acc - char
+      // else (acc - char) updated
+
+    })
+    // y.foldLeft(Map[String, Int]())
+    // val ymap = y.groupBy((el: (Char, Int)) => el._1)
+    // ymap.foldLeft(x.groupBy((el: (Char,Int)) => el._1 = el._2)) ((acc, removeMe) => {
+    //   // val oldTuple = acc apply removeMe._1
+    //   // acc - removeMe._1 foreach println
+    //   acc foreach println
+    //   acc })
+
+    x
   }
 
 
@@ -167,28 +173,17 @@ object Anagrams {
     *  Note: There is only one anagram of an empty sentence.
     */
   def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
-    def anagramAcc(sentOccur: Occurrences, combos: List[Occurrences], acc: List[Sentence]): List[Sentence] = sentOccur match {
-      case Nil => acc
-      case sentOccur => {
-        (for {
-          subset <- combos
-          subsetAnas = dictionaryByOccurrences.getOrElse(subset, Nil)
-          if (subset != Nil && subsetAnas != Nil)
-            } yield {
-          val remaining = subtract(sentOccur, subset)
-          val remainingAnas = anagramAcc(remaining, combinations(remaining), List())
-          println("------")
-          // println("subset:" + subset)
-          // println("remaining:" + remaining)
-          println("subsetAnas:" + subsetAnas)
-          println("remainingAnas:" + remainingAnas)
-          subsetAnas
-        })
-      }
+    def anagramsInOccur(occurrences: Occurrences): List[Sentence] = {
+      if (occurrences == List()) List(List())
+      else for {
+        combo <- combinations(occurrences)
+        comboAnas <- dictionaryByOccurrences(combo)
+        remainingAnas <- anagramsInOccur(subtract(occurrences, combo))
+        if (comboAnas != Nil)
+          } yield { comboAnas :: remainingAnas }
     }
 
-    val sentOccur = sentenceOccurrences(sentence)
-    anagramAcc(sentOccur, combinations(sentOccur), List())
+    anagramsInOccur(sentenceOccurrences(sentence))
   }
 
   // transform the characters of the sentence into a list saying how often each character appears
