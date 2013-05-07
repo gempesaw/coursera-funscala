@@ -115,20 +115,11 @@ object Anagrams {
 
     ymap.foldLeft(xmap) (( acc, removeMe) => {
       val char = removeMe._1
-      val count = removeMe._2
-      if ((acc apply removeMe._1) == count) acc - char
-      // else (acc - char) updated
-
-    })
-    // y.foldLeft(Map[String, Int]())
-    // val ymap = y.groupBy((el: (Char, Int)) => el._1)
-    // ymap.foldLeft(x.groupBy((el: (Char,Int)) => el._1 = el._2)) ((acc, removeMe) => {
-    //   // val oldTuple = acc apply removeMe._1
-    //   // acc - removeMe._1 foreach println
-    //   acc foreach println
-    //   acc })
-
-    x
+      val lessCount = removeMe._2
+      val currentCount = (acc apply removeMe._1)
+      if (currentCount <= lessCount) acc - char
+      else (acc - char).updated(char, currentCount - lessCount)
+    }).map{ case (k, v) => (k, v) }.toList.sorted
   }
 
 
