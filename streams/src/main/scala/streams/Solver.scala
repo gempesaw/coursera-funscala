@@ -71,7 +71,7 @@ trait Solver extends GameDef {
         (currentBlock, history) <- initial
         bestNeighbors <- newNeighborsOnly(neighborsWithHistory(currentBlock, history), explored)
       } yield bestNeighbors
-      initial #::: from(newPaths, explored + initial.head._1)
+      initial #::: from(newPaths, explored ++ initial.map(_._1))
     }
   }
 
