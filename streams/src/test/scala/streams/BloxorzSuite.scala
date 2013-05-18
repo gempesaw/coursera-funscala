@@ -77,6 +77,44 @@ class BloxorzSuite extends FunSuite {
 
         Set(Block(Pos(1,2),Pos(1,3)), Block(Pos(1,1),Pos(1,1)))
       ) === Set((Block(Pos(2,1),Pos(3,1)), List(Down,Left,Up))).toStream)
+
+      assert(
+        newNeighborsOnly(
+          neighborsWithHistory(
+            Block(Pos(1,1),Pos(1,1)), List(Left,Up)),
+          Set(Block(Pos(1,2),Pos(1,3)), Block(Pos(1,1),Pos(1,1)))
+
+        ) === Set((Block(Pos(2,1),Pos(3,1)), List(Down,Left,Up))).toStream
+      )
+    }
+  }
+
+  test("from") {
+    new Level1{
+      assert(from(
+        Stream((Block(Pos(1,1), Pos(1,1)), List())),
+        Set()).take(3).toSet
+        === Stream(
+          (Block(Pos(1,1), Pos(1,1)), List()),
+          (Block(Pos(1,2),Pos(1,3)),List(Right)),
+          (Block(Pos(2,1),Pos(3,1)),List(Down))).toSet )
+
+      assert(from(
+        Stream((Block(Pos(1,1), Pos(1,1)), List())),
+        Set()).take(1).toSet
+        === Stream(
+          (Block(Pos(1,1), Pos(1,1)), List())).toSet )
+
+      assert(from(
+        Stream((Block(Pos(1,1), Pos(1,1)), List())),
+        Set()).take(4).toSet
+        === Stream(
+          (Block(Pos(1,1), Pos(1,1)), List()),
+          (Block(Pos(1,2),Pos(1,3)),List(Right)),
+          (Block(Pos(2,1),Pos(3,1)),List(Down)),
+          (Block(Pos(1,4),Pos(1,4)),List(Right, Right))).toSet )
+
+      solution foreach println
     }
   }
 
